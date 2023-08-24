@@ -1,0 +1,13 @@
+{
+  "id": 777,
+  "firstName": "Petr",
+  "lastName": "Petrov",
+  "phoneNumber": "{phoneNumber}",
+  "email": "string@mail.com",
+  "dateOfBirth": "2001-01-01",
+  "loyalty": {
+    "bonusCardNumber": "123456789",
+    "status": "ACTIVE",
+    "discountRate": 999
+  }
+}

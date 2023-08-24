@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.kata'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'commons-codec:commons-codec:1.16.0'
+    testImplementation 'io.rest-assured:rest-assured:5.3.1'
+    testImplementation 'io.qameta.allure:allure-java-commons:2.23.0'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    testImplementation 'io.rest-assured:json-schema-validator:5.3.1'
+
+    implementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    implementation 'commons-codec:commons-codec:1.16.0'
+    implementation 'io.rest-assured:rest-assured:5.3.1'
+    implementation 'io.qameta.allure:allure-java-commons:2.23.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'io.rest-assured:json-schema-validator:5.3.1'
+
+}
+
+test {
+    useJUnitPlatform()
+}
