@@ -28,9 +28,9 @@ public class GetCustomersTest {
     @Description("Получаем клиента по корректному ID. Сначала создаем клиента, получаем его ID и получаем " +
             "этого же клиента с помощью метода. ")
     public void testGetCustomersId() {
-        Response customer = responsePostCustomers("create-customers");
+        String phoneNumber = randomNumber();
+        Response customer = responsePostCustomers("create-customers", phoneNumber);
         String id = getId(customer);
-        String phoneNumber = getPhoneNumber(customer);
         Response response = responseGetCustomersId(id);
 
         checkSchemaValidate(response);
@@ -73,7 +73,8 @@ public class GetCustomersTest {
             "создаем клиента, получаем его ID, затем удаляем, и пробуем получить с помощью метода. Ожидаем " +
             "404")
     public void testGetUnknownCustomers() {
-        Response customer = responsePostCustomers("create-customers");
+        String phoneNumber = randomNumber();
+        Response customer = responsePostCustomers("create-customers", phoneNumber);
         String id = getId(customer);
         responseDeleteCustomers(id);
         Response response = responseGetCustomersId(id);

@@ -23,8 +23,8 @@ public class ResponsesApiCustomers {
                 .get();
     }
 
-    public static <T> Response responsePutCustomers(T id, String body) {
-        return  given().spec(Specifications.reqSpecPutCustomers(id, body))
+    public static <T> Response responsePutCustomers(T id, String body, String phoneNumber) {
+        return  given().spec(Specifications.reqSpecPutCustomers(id, body, phoneNumber))
                 .put();
     }
 
@@ -33,8 +33,8 @@ public class ResponsesApiCustomers {
                 .delete();
     }
 
-    public static Response responsePostCustomers(String body) {
-        return given().spec(Specifications.reqSpecPostCustomers(body))
+    public static Response responsePostCustomers(String body, String phoneNumber) {
+        return given().spec(Specifications.reqSpecPostCustomers(body, phoneNumber))
                 .post();
     }
 

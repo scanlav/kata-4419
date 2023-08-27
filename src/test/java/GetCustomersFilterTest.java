@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.kata.config.serviceCustomers.checks.CheckAnswers.*;
 import static com.kata.config.serviceCustomers.constants.ConstantsService.*;
-import static com.kata.config.serviceCustomers.preparationDataCustomers.ServiceValues.getPhoneNumber;
+import static com.kata.config.serviceCustomers.preparationDataCustomers.ServiceValues.randomNumber;
 import static com.kata.config.serviceCustomers.preparationResponses.ResponsesApiCustomers.responseGetCustomerByPhoneNumber;
 import static com.kata.config.serviceCustomers.preparationResponses.ResponsesApiCustomers.responsePostCustomers;
 
@@ -20,8 +20,8 @@ public class GetCustomersFilterTest {
     @Description("Получение клиента по номеру телефона. Создаем клиента, проверяем корректность заполнения " +
             "полей при получении клиента с помощью метода.")
     public void testGetCustomersByPhoneNumber() {
-        Response customer = responsePostCustomers("create-customers");
-        String phoneNumber = getPhoneNumber(customer);
+        String phoneNumber = randomNumber();
+        responsePostCustomers("create-customers", phoneNumber);
         Response response = responseGetCustomerByPhoneNumber(phoneNumber);
 
         checkSchemaValidate(response);
@@ -39,8 +39,8 @@ public class GetCustomersFilterTest {
             " на длину не установлено, что некорректно. Но в документации длина не указана, за ошибку " +
             "считать нельзя.")
     public void testGetCustomersByPhoneNumberConcat() {
-        Response customer = responsePostCustomers("create-customers");
-        String phoneNumber = getPhoneNumber(customer);
+        String phoneNumber = randomNumber();
+        responsePostCustomers("create-customers", phoneNumber);
         Response response = responseGetCustomerByPhoneNumber(phoneNumber + 123);
 
         checkErrorMessage(response, NOT_FOUND);

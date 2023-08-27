@@ -23,7 +23,8 @@ dependencies {
     implementation 'io.qameta.allure:allure-java-commons:2.23.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
     implementation 'io.rest-assured:json-schema-validator:5.3.1'
-
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
 }
 
 test {

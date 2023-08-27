@@ -10,6 +10,7 @@ import static com.kata.config.serviceCustomers.constants.ConstantsJson.FIRST_NAM
 import static com.kata.config.serviceCustomers.constants.ConstantsJson.ID;
 import static com.kata.config.serviceCustomers.constants.ConstantsService.CUSTOMERS;
 import static com.kata.config.serviceCustomers.preparationDataCustomers.ServiceValues.getFieldResponse;
+import static com.kata.config.serviceCustomers.preparationDataCustomers.ServiceValues.randomNumber;
 import static com.kata.config.serviceCustomers.preparationResponses.ResponsesApiCustomers.*;
 
 @Epic(CUSTOMERS)
@@ -20,13 +21,14 @@ public class PutUpdateCustomersTest {
     @DisplayName("Изменение данных клиента")
     @Description("Тест падает с ошибкой сервера 500. Неважно, какие данные передаются, всегда ошибка 500")
     public void testPutCustomers() {
-        Response customer = responsePostCustomers("create-customers");
+        String phoneNumber = randomNumber();
+        Response customer = responsePostCustomers("create-customers", phoneNumber);
         String id = getFieldResponse(customer, ID);
         Response response = responseGetCustomersId(id);
 
         checkFieldCustomer(response, FIRST_NAME, "Petr");
 
-        responsePutCustomers(id, "create-customers-update");
+        responsePutCustomers(id, "create-customers-update", phoneNumber);
         checkFieldCustomer(response, FIRST_NAME, "Иван");
     }
 }

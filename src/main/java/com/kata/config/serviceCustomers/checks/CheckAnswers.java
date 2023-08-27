@@ -1,9 +1,12 @@
 package com.kata.config.serviceCustomers.checks;
 
 import com.kata.config.serviceCustomers.matchers.DateMatchers;
+import com.kata.config.serviceCustomers.models.Customer;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CheckAnswers {
 
@@ -39,8 +42,19 @@ public class CheckAnswers {
                 .body(field, Matchers.equalTo(value));
     }
 
-    public static boolean checkValidCustomer(String expected, String actual) {
-        return expected.equals(actual);
+    public static void checkValidCustomer(Customer customer, String firstName, String lastName,
+                                          String phoneNumber, String email, String dateOfBirth) {
+        assertThat(customer.getId(), Matchers.notNullValue());
+        assertThat(customer.getFirstName(), Matchers.equalTo(firstName));
+        assertThat(customer.getLastName(), Matchers.equalTo(lastName));
+        assertThat(customer.getPhoneNumber(), Matchers.equalTo(phoneNumber));
+        assertThat(customer.getEmail(), Matchers.equalTo(email));
+        assertThat(customer.getDateOfBirth(), Matchers.equalTo(dateOfBirth));
+        assertThat(customer.getLoyalty().getBonusCardNumber(), Matchers.notNullValue());
+        assertThat(customer.getLoyalty().getStatus(), Matchers.notNullValue());
+        assertThat(customer.getLoyalty().getDiscountRate(), Matchers.notNullValue());
+        assertThat(customer.getUpdatedAt(), DateMatchers.isToday());
+        assertThat(customer.getUpdatedAt(), DateMatchers.isToday());
     }
 
     public static void checkStatusCode(Response response, Integer statusCode) {

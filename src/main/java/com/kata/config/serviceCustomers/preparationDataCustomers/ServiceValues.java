@@ -16,10 +16,6 @@ public class ServiceValues {
         return getFieldResponse(response, ID);
     }
 
-    public static String getPhoneNumber(Response response) {
-        return getFieldResponse(response, PHONE_NUMBER);
-    }
-
     public static String randomNumber() {
         return "+7" + RandomStringUtils.randomNumeric(10);
     }

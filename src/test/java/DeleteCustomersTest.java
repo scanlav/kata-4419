@@ -18,9 +18,9 @@ public class DeleteCustomersTest {
     @DisplayName("Удаление клиента")
     @Description("Проверка корректного удаления клиента.")
     public void testDeleteCustomers() {
-        Response customer = responsePostCustomers("create-customers");
+        String phoneNumber = randomNumber();
+        Response customer = responsePostCustomers("create-customers", phoneNumber);
         String id = getId(customer);
-        String phoneNumber =getPhoneNumber(customer);
 
         checkRequiredFieldsCorrectCreatedCustomers(customer, "Petr", "Petrov", phoneNumber);
 

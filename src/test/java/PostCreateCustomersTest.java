@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import static com.kata.config.serviceCustomers.checks.CheckAnswers.*;
 import static com.kata.config.serviceCustomers.constants.ConstantsService.*;
-import static com.kata.config.serviceCustomers.preparationDataCustomers.ServiceValues.getPhoneNumber;
 import static com.kata.config.serviceCustomers.preparationDataCustomers.ServiceValues.randomNumber;
 import static com.kata.config.serviceCustomers.preparationResponses.ResponsesApiCustomers.responsePostCustomers;
 import static com.kata.config.serviceCustomers.preparationResponses.ResponsesApiCustomers.saveAsCustomer;
@@ -23,15 +22,25 @@ public class PostCreateCustomersTest {
             "полей в ответе.")
     public void testCreateNewCustomersRequiredFields() {
         Customer customer = new Customer();
+        String phoneNumber = randomNumber();
         customer.setFirstName("Михаил");
         customer.setLastName("Горшков");
-        customer.setPhoneNumber(randomNumber());
+        customer.setEmail("mail@mail.com");
+        customer.setDateOfBirth("1991-06-09");
+        customer.setPhoneNumber(phoneNumber);
+
         Response response = responsePostCustomers(customer);
         Customer created = saveAsCustomer(response);
 
         checkSchemaValidate(response);
-        checkValidCustomer(customer.getFirstName(), created.getFirstName());
-        checkValidCustomer(customer.getLastName(), created.getLastName());
+        checkValidCustomer(
+                created,
+                "Михаил",
+                "Горшков",
+                phoneNumber,
+                "mail@mail.com",
+                "1991-06-09"
+        );
     }
 
     @Test
@@ -39,8 +48,8 @@ public class PostCreateCustomersTest {
     @Description("Создание клиента с русскими именем и фамилией. Проверяем корректность заполнения полей в " +
             "ответе")
     public void testCreatedCustomersCyrillicFirstLastName() {
-        Response customer = responsePostCustomers("create-customers-cyrillic");
-        String phoneNumber = getPhoneNumber(customer);
+        String phoneNumber = randomNumber();
+        Response customer = responsePostCustomers("create-customers-cyrillic", phoneNumber);
 
         checkSchemaValidate(customer);
         checkRequiredFieldsCorrectCreatedCustomers(customer, "Петр", "Петров", phoneNumber);
@@ -51,8 +60,8 @@ public class PostCreateCustomersTest {
     @Description("Проверяем, что сервис игнорирует заполнение полей. Поле shopCode пока заполнять не имеет " +
             "смысла, т.к. без БД этот функционал не реализован.")
     public void testCreateNewCustomersAllFields() {
-        Response customer = responsePostCustomers("create-customers-all-fields");
-        String phoneNumber = getPhoneNumber(customer);
+        String phoneNumber = randomNumber();
+        Response customer = responsePostCustomers("create-customers-all-fields", phoneNumber);
 
         checkSchemaValidate(customer);
         checkAllFieldsCorrectCreatedCustomer(
@@ -70,7 +79,8 @@ public class PostCreateCustomersTest {
     @Description("Пытаемся создать клиента без заполнения основных полей. Проверяем сообщения ошибок в " +
             "ответе сервиса, ожидаем 400")
     public void testCreateNewCustomersWithoutRequiredFields() {
-        Response response = responsePostCustomers("create-customers-without-required-fields");
+        String phoneNumber = randomNumber();
+        Response response = responsePostCustomers("create-customers-without-required-fields", phoneNumber);
 
         checkStatusCode(response, 400);
         checkErrorMessage(response, MISSING_FIELDS);
@@ -81,8 +91,8 @@ public class PostCreateCustomersTest {
     @Description("Создаем клиента, вместо имени и фамилии передаем числа. Т.к. в документации на это " +
             "ограничений нет, ожидаем корректное создание клиента.")
     public void testCreateNewCustomersFirstNameNumbers() {
-        Response customer = responsePostCustomers("create-customers-firstLastName-numbers");
-        String phoneNumber = getPhoneNumber(customer);
+        String phoneNumber = randomNumber();
+        Response customer = responsePostCustomers("create-customers-firstLastName-numbers", phoneNumber);
 
         checkSchemaValidate(customer);
         checkRequiredFieldsCorrectCreatedCustomers(customer, "123", "123", phoneNumber);
@@ -92,7 +102,8 @@ public class PostCreateCustomersTest {
     @DisplayName("Создание клиента. В дату рождения передаем данные в формате 0000-00-00")
     @Description("Пытаемся создать клиента с нулевой датой рождения. Ожидаем 400")
     public void testCreateNewCustomersBirthdayZero() {
-        Response response = responsePostCustomers("create-customers-birthday-zero");
+        String phoneNumber = randomNumber();
+        Response response = responsePostCustomers("create-customers-birthday-zero", phoneNumber);
 
         checkStatusCode(response, 400);
         checkErrorMessage(response, BAD_REQUEST);
