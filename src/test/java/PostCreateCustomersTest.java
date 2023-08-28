@@ -11,6 +11,7 @@ import static com.kata.config.serviceCustomers.constants.ConstantsService.*;
 import static com.kata.config.serviceCustomers.preparationDataCustomers.ServiceValues.randomNumber;
 import static com.kata.config.serviceCustomers.preparationResponses.ResponsesApiCustomers.responsePostCustomers;
 import static com.kata.config.serviceCustomers.preparationResponses.ResponsesApiCustomers.saveAsCustomer;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Epic(CUSTOMERS)
 @Story("Создание клиента методом POST")
@@ -33,14 +34,7 @@ public class PostCreateCustomersTest {
         Customer created = saveAsCustomer(response);
 
         checkSchemaValidate(response);
-        checkValidCustomer(
-                created,
-                "Михаил",
-                "Горшков",
-                phoneNumber,
-                "mail@mail.com",
-                "1991-06-09"
-        );
+        assertEquals(customer, created);
     }
 
     @Test
